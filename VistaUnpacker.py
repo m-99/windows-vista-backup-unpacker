@@ -12,7 +12,7 @@ def unzip(rootdir):
 def consolidate(rootdir):
     for subdir, dirs, files in os.walk(rootdir):
         for file in files:
-            if not file.endswith('.zip'):
+            if (not file.endswith('.zip')) and (file != __file__):
                 filepath = os.path.join(subdir, file)
                 new_filepath = path_without_immediate_parent(filepath, rootdir)
                 os.makedirs(os.path.dirname(new_filepath), exist_ok=True)
@@ -30,6 +30,7 @@ def path_without_immediate_parent(filepath, rootdir):
 
 
 if __name__ == '__main__':
-    rootdir = 'C:\\Users\\sammi\\Downloads\\Test'
+    realpath = os.path.realpath(__file__)
+    rootdir, _ = os.path.split(realpath)
     unzip(rootdir)
     consolidate(rootdir)
